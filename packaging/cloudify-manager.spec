@@ -30,6 +30,7 @@ virtualenv /opt/cloudify-manager-installer/env
 
 
 %install
+install -m 755 -d ${RPM_BUILD_ROOT}/opt
 mv /opt/cloudify-manager-installer %{buildroot}/opt/cloudify-manager-installer
 install -m 755 -d ${RPM_BUILD_ROOT}/%{_bindir}
 ln -s /opt/cloudify-manager-installer/env/bin/cfy_install ${RPM_BUILD_ROOT}/%{_bindir}/cfy_install
