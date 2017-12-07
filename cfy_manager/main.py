@@ -184,7 +184,8 @@ def remove(verbose=False, force=False):
     _print_time()
 
 
-if __name__ == '__main__':
+def main():
+    """Main entry point"""
     argh.dispatch_commands([
         install,
         configure,
@@ -192,3 +193,7 @@ if __name__ == '__main__':
         create_internal_certs,
         create_external_certs
     ])
+
+
+if __name__ == '__main__':
+    main()
