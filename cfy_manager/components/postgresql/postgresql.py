@@ -30,11 +30,13 @@ from ...utils.systemd import systemd
 from ...utils.users import delete_service_user, delete_group
 
 
-SYSTEMD_SERVICE_NAME = 'postgresql'
+SYSTEMD_SERVICE_NAME = 'postgresql-9.5'
 POSTGRES_USER = 'postgres'
 LOG_DIR = join(constants.BASE_LOG_DIR, POSTGRESQL)
+
 PGSQL_LIB_DIR = '/var/lib/pgsql'
-PG_HBA_CONF = '/var/lib/pgsql/data/pg_hba.conf'
+PGSQL_USR_DIR = '/usr/pgsql-9.5'
+PS_HBA_CONF = '/var/lib/pgsql/9.5/data/pg_hba.conf'
 PGPASS_PATH = join(constants.CLOUDIFY_HOME_DIR, '.pgpass')
 
 PG_PORT = 5432
@@ -44,8 +46,9 @@ logger = get_logger(POSTGRESQL)
 
 def _init_postgresql():
     logger.debug('Initializing PostreSQL DATA folder...')
+    postgresql95_setup = join(PGSQL_USR_DIR, 'bin', 'postgresql95-setup')
     try:
-        common.sudo(command=['/bin/postgresql-setup', 'initdb'])
+        common.sudo(command=[postgresql95_setup, 'initdb'])
     except Exception:
         logger.debug('PostreSQL DATA folder already initialized...')
         pass
@@ -55,10 +58,10 @@ def _init_postgresql():
     systemd.restart(SYSTEMD_SERVICE_NAME, append_prefix=False)
 
     logger.debug('Setting PostgreSQL logs path...')
-    pg_logs_path = join(PGSQL_LIB_DIR, 'data', 'pg_log')
+    ps_95_logs_path = join(PGSQL_LIB_DIR, '9.5', 'data', 'pg_log')
     common.mkdir(LOG_DIR)
-    if not isdir(pg_logs_path) and not islink(join(LOG_DIR, 'pg_log')):
-        files.ln(source=pg_logs_path, target=LOG_DIR, params='-s')
+    if not isdir(ps_95_logs_path) and not islink(join(LOG_DIR, 'pg_log')):
+        files.ln(source=ps_95_logs_path, target=LOG_DIR, params='-s')
 
     logger.info('Starting PostgreSQL service...')
     systemd.restart(SYSTEMD_SERVICE_NAME, append_prefix=False)
@@ -66,7 +69,7 @@ def _init_postgresql():
 
 def _read_hba_lines():
     temp_hba_path = files.write_to_tempfile('')
-    common.copy(PG_HBA_CONF, temp_hba_path)
+    common.copy(PS_HBA_CONF, temp_hba_path)
     common.chmod('777', temp_hba_path)
     with open(temp_hba_path, 'r') as f:
         lines = f.readlines()
@@ -86,12 +89,12 @@ def _write_new_hba_file(lines):
 
 def _update_configuration():
     logger.info('Updating PostgreSQL configuration...')
-    logger.debug('Modifying {0}'.format(PG_HBA_CONF))
-    common.copy(PG_HBA_CONF, '{0}.backup'.format(PG_HBA_CONF))
+    logger.debug('Modifying {0}'.format(PS_HBA_CONF))
+    common.copy(PS_HBA_CONF, '{0}.backup'.format(PS_HBA_CONF))
     lines = _read_hba_lines()
     temp_hba_path = _write_new_hba_file(lines)
-    common.move(temp_hba_path, PG_HBA_CONF)
-    common.chown(POSTGRES_USER, POSTGRES_USER, PG_HBA_CONF)
+    common.move(temp_hba_path, PS_HBA_CONF)
+    common.chown(POSTGRES_USER, POSTGRES_USER, PS_HBA_CONF)
 
 
 def _create_postgres_pass_file():
@@ -167,7 +170,7 @@ def remove():
     logger.notice('Removing PostgreSQL...')
     files.remove_notice(POSTGRESQL)
     systemd.remove(SYSTEMD_SERVICE_NAME)
-    files.remove_files([PGSQL_LIB_DIR, LOG_DIR])
+    files.remove_files([PGSQL_LIB_DIR, PGSQL_USR_DIR, LOG_DIR])
     delete_service_user(POSTGRES_USER)
     delete_group(POSTGRES_USER)
     logger.notice('PostgreSQL successfully removed')
