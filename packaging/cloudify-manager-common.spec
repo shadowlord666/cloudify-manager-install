@@ -33,6 +33,7 @@ Cloudify common components
 
 
 %install
+cd ${RPM_SOURCE_DIR}
 python setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT --record=${RPM_BUILD_DIR}/INSTALLED_FILES
 
 
