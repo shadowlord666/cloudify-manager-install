@@ -29,7 +29,7 @@ cd ${RPM_SOURCE_DIR}
 python setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT --record=${RPM_BUILD_DIR}/INSTALLED_FILES
 install -m 755 -d ${RPM_BUILD_ROOT}/opt/cloudify/sources
 install -m 755 -d ${RPM_BUILD_ROOT}/etc/yum.repos.d/
-cp SOURCE_RPMS/*.rpm ${RPM_BUILD_ROOT}/opt/cloudify/sources/
+mv *.rpm ${RPM_BUILD_ROOT}/opt/cloudify/sources/
 createrepo ${RPM_BUILD_ROOT}/opt/cloudify/sources
 cat >${RPM_BUILD_ROOT}/etc/yum.repos.d/Cloudify-local.repo <<EOF
 [localrepo]
