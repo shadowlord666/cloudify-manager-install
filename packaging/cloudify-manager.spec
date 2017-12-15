@@ -1,51 +1,27 @@
-Name:           cloudify-manager-install
+
+Name:           cloudify-manager
 Version:        %{CLOUDIFY_VERSION}
 Release:        %{CLOUDIFY_PACKAGE_RELEASE}%{?dist}
-Summary:        Cloudify's Logstash
+Summary:        Cloudify's REST Service
 Group:          Applications/Multimedia
 License:        Apache 2.0
 URL:            https://github.com/cloudify-cosmo/cloudify-manager
-Vendor:         Gigaspaces Inc.
-Packager:       Gigaspaces Inc.
+Vendor:         Cloudify Inc.
+Packager:       Cloudify Inc.
 
-BuildRequires:  python, python-setuptools, createrepo
-Requires:       python, python-setuptools, PyYAML, python-jinja2, python2-argh = 0.26.1
-%define _name cfy-manager
+Requires:       postgresql-server
+Requires:       cloudify-agents = %{version}
+Requires:       cloudify-amqp-influx = %{version}
+Requires:       cloudify-logstash = %{version}
+Requires:       cloudify-manager-common = %{version}
+Requires:       cloudify-management-worker = %{version}
+Requires:       cloudify-rest-service = %{version}
+Requires:       cloudify-riemann = %{version}
+Requires:       cloudify-stage = %{version}
 
 
 %description
-Cloudify common components
-
--`cfy_manager` helper script
-
-
-%prep
-
-%build
-
-
-%install
-cd ${RPM_SOURCE_DIR}
-python setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT --record=${RPM_BUILD_DIR}/INSTALLED_FILES
-install -m 755 -d ${RPM_BUILD_ROOT}/opt/cloudify/sources
-install -m 755 -d ${RPM_BUILD_ROOT}/etc/yum.repos.d/
-mv *.rpm ${RPM_BUILD_ROOT}/opt/cloudify/sources/
-createrepo ${RPM_BUILD_ROOT}/opt/cloudify/sources
-cat >${RPM_BUILD_ROOT}/etc/yum.repos.d/Cloudify-local.repo <<EOF
-[localrepo]
-baseurl=file:///opt/cloudify/sources
-gpgcheck=0
-EOF
-
-
-%pre
-%post
-%preun
-%postun
+cloudify-manager full install.
 
 
 %files
-
-%files -f INSTALLED_FILES
-/opt/cloudify/sources
-/etc/yum.repos.d/Cloudify-local.repo
