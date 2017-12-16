@@ -27,7 +27,6 @@ from .components import sanity
 from .components import python
 from .components import manager
 from .components import riemann
-from .components import composer
 from .components import logstash
 from .components import rabbitmq
 from .components import influxdb
@@ -68,7 +67,6 @@ COMPONENTS = [
     java,
     riemann,
     stage,
-    composer,
     logstash,
     mgmtworker,
     cli,
