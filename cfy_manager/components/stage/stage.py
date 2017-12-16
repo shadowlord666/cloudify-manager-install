@@ -32,8 +32,7 @@ from ...utils import sudoers
 from ...utils import common, files
 from ...utils.systemd import systemd
 from ...utils.network import wait_for_port
-from ...utils.users import (create_service_user,
-                            delete_service_user,
+from ...utils.users import (delete_service_user,
                             delete_group)
 from ...utils.logrotate import set_logrotate, remove_logrotate
 
@@ -52,7 +51,6 @@ NODE_EXECUTABLE_PATH = '/usr/bin/node'
 
 def _create_paths():
     common.mkdir(HOME_DIR)
-    common.mkdir(LOG_DIR)
     common.mkdir(RESOURCES_DIR)
 
 
@@ -66,14 +64,6 @@ def _set_community_mode():
 
 def _install():
     _create_paths()
-
-
-def _create_user_and_set_permissions():
-    create_service_user(STAGE_USER, STAGE_GROUP, HOME_DIR)
-
-    logger.debug('Fixing permissions...')
-    common.chown(STAGE_USER, STAGE_GROUP, HOME_DIR)
-    common.chown(STAGE_USER, STAGE_GROUP, LOG_DIR)
 
 
 def _deploy_script(script_name, description):
@@ -137,7 +127,6 @@ def _start_and_validate_stage():
 def _configure():
     files.copy_notice(STAGE)
     set_logrotate(STAGE)
-    _create_user_and_set_permissions()
     _deploy_scripts()
     rest_service_python = join(config[RESTSERVICE][VENV], 'bin', 'python')
     _allow_snapshot_restore_to_restore_token(rest_service_python)
