@@ -8,8 +8,8 @@ URL:            https://github.com/cloudify-cosmo/cloudify-manager
 Vendor:         Gigaspaces Inc.
 Packager:       Gigaspaces Inc.
 
-BuildRequires:  python, python-setuptools, createrepo
-Requires:       python, python-setuptools, PyYAML, python-jinja2, python2-argh = 0.26.1
+BuildRequires:  python, python-setuptools, createrepo, epel-release, python-pip
+Requires:       python, python-setuptools, PyYAML, python-jinja2
 %define _name cfy-manager
 
 
@@ -26,6 +26,7 @@ Cloudify common components
 
 %install
 cd ${RPM_SOURCE_DIR}
+pip install argh==0.26.2 --root="${RPM_BUILD_ROOT}" --install-option="--record=${RPM_BUILD_DIR}/INSTALLED_FILES_ARGH" --install-option="-O1"
 python setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT --record=${RPM_BUILD_DIR}/INSTALLED_FILES
 install -m 755 -d ${RPM_BUILD_ROOT}/opt/cloudify/sources
 install -m 755 -d ${RPM_BUILD_ROOT}/etc/yum.repos.d/
