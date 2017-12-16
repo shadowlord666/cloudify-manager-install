@@ -9,7 +9,7 @@ URL:            https://github.com/cloudify-cosmo/cloudify-manager
 Vendor:         Cloudify Inc.
 Packager:       Cloudify Inc.
 
-Requires:       postgresql-server
+Requires:       postgresql95-server
 Requires:       cloudify-agents = %{version}
 Requires:       cloudify-amqp-influx = %{version}
 Requires:       cloudify-logstash = %{version}
