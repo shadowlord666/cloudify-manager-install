@@ -18,7 +18,7 @@ Requires:       cloudify-management-worker = %{version}
 Requires:       cloudify-rest-service = %{version}
 Requires:       cloudify-riemann = %{version}
 Requires:       cloudify-stage = %{version}
-Requires:       cloudify = %{version}
+Requires:       cloudify
 
 
 %description
