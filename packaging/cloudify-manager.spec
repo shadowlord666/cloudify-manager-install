@@ -13,7 +13,6 @@ Requires:       postgresql-server
 Requires:       cloudify-agents = %{version}
 Requires:       cloudify-amqp-influx = %{version}
 Requires:       cloudify-logstash = %{version}
-Requires:       cloudify-manager-common = %{version}
 Requires:       cloudify-management-worker = %{version}
 Requires:       cloudify-rest-service = %{version}
 Requires:       cloudify-riemann = %{version}
