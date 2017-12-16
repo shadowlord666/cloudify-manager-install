@@ -48,5 +48,6 @@ EOF
 %files
 
 %files -f INSTALLED_FILES
+%files -f INSTALLED_FILES_ARGH
 /opt/cloudify/sources
 /etc/yum.repos.d/Cloudify-local.repo
