@@ -54,12 +54,6 @@ def _configure():
     _start_and_verify()
 
 
-def install():
-    logger.notice('Installing AMQP-Influx...')
-    _configure()
-    logger.notice('AMQP-Influx successfully installed')
-
-
 def configure():
     logger.notice('Configuring AMQP-Influx...')
     _configure()

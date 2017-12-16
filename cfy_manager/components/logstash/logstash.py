@@ -148,12 +148,6 @@ def _configure():
     _start_and_validate_logstash()
 
 
-def install():
-    logger.notice('Installing Logstash...')
-    _configure()
-    logger.notice('Logstash successfully installed')
-
-
 def configure():
     logger.notice('Configuring Logstash...')
     _configure()

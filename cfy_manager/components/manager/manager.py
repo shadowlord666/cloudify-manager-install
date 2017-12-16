@@ -100,12 +100,6 @@ def _configure():
     _create_manager_resources_dirs()
 
 
-def install():
-    logger.notice('Installing Cloudify Manager resources...')
-    _configure()
-    logger.notice('Cloudify Manager resources successfully installed')
-
-
 def configure():
     logger.notice('Configuring Cloudify Manager resources...')
     _configure()

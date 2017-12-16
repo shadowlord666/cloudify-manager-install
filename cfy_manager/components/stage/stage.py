@@ -126,12 +126,6 @@ def _configure():
     _start_and_validate_stage()
 
 
-def install():
-    logger.notice('Installing Stage...')
-    _configure()
-    logger.notice('Stage successfully installed')
-
-
 def configure():
     logger.notice('Configuring Stage...')
     _configure()

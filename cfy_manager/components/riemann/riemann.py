@@ -84,12 +84,6 @@ def _configure():
     _start_and_verify_service()
 
 
-def install():
-    logger.notice('Installing Riemann...')
-    _configure()
-    logger.notice('Riemann successfully installed')
-
-
 def configure():
     logger.notice('Configuring Riemann...')
     _configure()

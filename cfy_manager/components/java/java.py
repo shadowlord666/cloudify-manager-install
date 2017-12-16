@@ -51,12 +51,6 @@ def _configure():
     _validate_java_installed()
 
 
-def install():
-    logger.notice('Installing Java...')
-    _configure()
-    logger.notice('Java successfully installed')
-
-
 def configure():
     logger.info('Configuring Java...')
     _configure()

@@ -177,12 +177,6 @@ def _configure():
         _start_and_verify_alive()
 
 
-def install():
-    logger.notice('Installing InfluxDB...')
-    _configure()
-    logger.notice('InfluxDB successfully installed')
-
-
 def configure():
     logger.notice('Configuring InfluxDB...')
     _configure()

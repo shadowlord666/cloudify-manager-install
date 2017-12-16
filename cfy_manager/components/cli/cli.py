@@ -63,12 +63,6 @@ def _configure():
     _set_colors(is_root=True)
 
 
-def install():
-    logger.notice('Configuring Cloudify CLI...')
-    _configure()
-    logger.notice('Cloudify CLI successfully configured')
-
-
 def configure():
     logger.notice('Configuring Cloudify CLI...')
     _configure()

@@ -289,12 +289,6 @@ def _configure():
     _start_and_verify_service()
 
 
-def install():
-    logger.notice('Installing NGINX...')
-    _configure()
-    logger.notice('NGINX successfully installed')
-
-
 def configure():
     logger.notice('Configuring NGINX...')
     _configure()

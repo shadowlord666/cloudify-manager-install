@@ -44,16 +44,6 @@ CONFIG_PATH = join(const.COMPONENTS_DIR, MGMTWORKER, CONFIG)
 logger = get_logger(MGMTWORKER)
 
 
-def _install():
-    # TODO: Take care of this
-    # Prepare riemann dir. We will change the owner to riemann later, but the
-    # management worker will still need access to it
-    # common.mkdir('/opt/riemann')
-    # utils.chown(CLOUDIFY_USER, CLOUDIFY_GROUP, riemann_dir)
-    # utils.chmod('770', riemann_dir)
-    pass
-
-
 def _create_paths():
     common.mkdir(HOME_DIR)
     common.mkdir(join(HOME_DIR, 'config'))
@@ -143,13 +133,6 @@ def _configure():
     _configure_logging()
     _prepare_snapshot_permissions()
     _start_and_verify_mgmtworker()
-
-
-def install():
-    logger.notice('Installing Management Worker...')
-    _install()
-    _configure()
-    logger.notice('Management Worker successfully installed')
 
 
 def configure():

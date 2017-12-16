@@ -214,12 +214,6 @@ def _configure():
     _validate_rabbitmq_running()
 
 
-def install():
-    logger.notice('Installing RabbitMQ...')
-    _configure()
-    logger.notice('RabbitMQ successfully installed')
-
-
 def configure():
     logger.notice('Configuring RabbitMQ...')
     _configure()

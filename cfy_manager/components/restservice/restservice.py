@@ -20,7 +20,7 @@ import string
 import base64
 import urllib2
 import subprocess
-from os.path import join, islink, isdir
+from os.path import join
 
 from .. import (
     AGENT,
@@ -48,7 +48,7 @@ from ...utils.systemd import systemd
 from ...utils.network import get_auth_headers, wait_for_port
 from ...utils.files import deploy, remove_notice, copy_notice
 from ...utils.logrotate import set_logrotate, remove_logrotate
-from ...utils.files import ln, write_to_tempfile, remove_files, write_to_file
+from ...utils.files import write_to_tempfile, remove_files, write_to_file
 
 
 HOME_DIR = '/opt/manager'
@@ -94,30 +94,6 @@ def _deploy_sudo_commands():
         component=RESTSERVICE,
         render=False
     )
-
-
-def _configure_dbus():
-    # link dbus-python-1.1.1-9.el7.x86_64 to the venv for `cfy status`
-    # (module in pypi is very old)
-    site_packages = 'lib64/python2.7/site-packages'
-    dbus_relative_path = join(site_packages, 'dbus')
-    dbuslib = join('/usr', dbus_relative_path)
-    dbus_glib_bindings = join('/usr', site_packages, '_dbus_glib_bindings.so')
-    dbus_bindings = join('/usr', site_packages, '_dbus_bindings.so')
-    if isdir(dbuslib):
-        dbus_venv_path = join(REST_VENV, dbus_relative_path)
-        if not islink(dbus_venv_path):
-            ln(source=dbuslib, target=dbus_venv_path, params='-sf')
-            ln(source=dbus_bindings, target=dbus_venv_path, params='-sf')
-        if not islink(join(REST_VENV, site_packages)):
-            ln(source=dbus_glib_bindings, target=join(
-               REST_VENV, site_packages), params='-sf')
-    else:
-        logger.warn('Could not find dbus install, cfy status will not work')
-
-
-def _install():
-    _configure_dbus()
 
 
 def _deploy_rest_configuration():
@@ -347,13 +323,6 @@ def _configure():
     systemd.configure(RESTSERVICE, tmpfiles=True)
     _create_db_tables_and_add_defaults()
     _start_restservice()
-
-
-def install():
-    logger.notice('Installing Rest Service...')
-    _install()
-    _configure()
-    logger.notice('Rest Service successfully installed')
 
 
 def configure():

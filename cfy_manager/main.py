@@ -16,6 +16,7 @@
 
 import sys
 import argh
+import subprocess
 from time import time
 from traceback import format_exception
 
@@ -24,7 +25,6 @@ from .components import java
 from .components import nginx
 from .components import stage
 from .components import sanity
-from .components import python
 from .components import manager
 from .components import riemann
 from .components import logstash
@@ -58,7 +58,6 @@ COMPONENTS = [
     manager,
     manager_ip_setter,
     nginx,
-    python,
     postgresql,
     rabbitmq,
     restservice,
@@ -134,9 +133,12 @@ def install(verbose=False,
     validate()
     set_globals()
 
+    subprocess.call(['/usr/bin/yum', '--disablerepo=*',
+                     '--enablerepo=localrepo', 'install', 'cloudify-manager'])
     for component in COMPONENTS:
-        component.install()
+        component.configure()
 
+    sanity.install()
     remove_temp_files()
     logger.notice('Cloudify Manager successfully installed!')
     _print_finish_message()

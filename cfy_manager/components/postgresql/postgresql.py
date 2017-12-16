@@ -154,12 +154,6 @@ def _configure():
     _create_default_db()
 
 
-def install():
-    logger.notice('Installing PostgreSQL...')
-    _configure()
-    logger.notice('PostgreSQL successfully installed')
-
-
 def configure():
     logger.notice('Configuring PostgreSQL...')
     _configure()
