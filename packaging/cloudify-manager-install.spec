@@ -30,7 +30,7 @@ pip install argh==0.26.2 --root="${RPM_BUILD_ROOT}" --install-option="--record=$
 python setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT --record=${RPM_BUILD_DIR}/INSTALLED_FILES
 install -m 755 -d ${RPM_BUILD_ROOT}/opt/cloudify/sources
 install -m 755 -d ${RPM_BUILD_ROOT}/etc/yum.repos.d/
-mv *.rpm ${RPM_BUILD_ROOT}/opt/cloudify/sources/
+cp *.rpm ${RPM_BUILD_ROOT}/opt/cloudify/sources/
 createrepo ${RPM_BUILD_ROOT}/opt/cloudify/sources
 cat >${RPM_BUILD_ROOT}/etc/yum.repos.d/Cloudify-local.repo <<EOF
 [localrepo]
