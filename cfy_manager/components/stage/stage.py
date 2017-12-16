@@ -49,21 +49,12 @@ STAGE_RESOURCES = join(BASE_RESOURCES_PATH, STAGE)
 NODE_EXECUTABLE_PATH = '/usr/bin/node'
 
 
-def _create_paths():
-    common.mkdir(HOME_DIR)
-    common.mkdir(RESOURCES_DIR)
-
-
 def _set_community_mode():
     premium_edition = config[MANAGER]['premium_edition']
     community_mode = '' if premium_edition else '-mode community'
 
     # This is used in the stage systemd service file
     config[STAGE]['community_mode'] = community_mode
-
-
-def _install():
-    _create_paths()
 
 
 def _deploy_script(script_name, description):
@@ -137,7 +128,6 @@ def _configure():
 
 def install():
     logger.notice('Installing Stage...')
-    _install()
     _configure()
     logger.notice('Stage successfully installed')
 
